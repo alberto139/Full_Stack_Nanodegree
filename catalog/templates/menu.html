@@ -1,0 +1,31 @@
+<html>
+
+{% include "navbar.html" %}
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+	
+
+	<body>
+		<div class = 'pane'>
+		<h1>{{ category.name }}</h1>
+		<a href="{{url_for('newItem', category_id = category.id )}}" > <h3> Add new {{ category.name }} item  </h3> </a>
+
+		{% for item in items %}
+		<div class="w3-quarter">
+			<h4>{{item.name}}</h4>
+			<h4>{{item.price}}</h4>
+			{%if item.picture_url == ''%}
+			<img src="https://media.musiciansfriend.com/is/image/MMGS7/Special-Edition-Deluxe-Ash-Telecaster-Maple-Fretboard-Butterscotch-Blonde/H72859000001001-00-220x220.jpg" alt="Category" style="max-width: 300 px; max-height: 300px">
+			{%else%}
+			<img src="{{item.picture_url}}" alt="Steak" style="max-width: 300 px; max-height: 300px">
+			{%endif%}
+			<p>{{item.description}}</p>
+			<p><a href = "{{url_for('editItem',category_id = category.id, menu_id = item.id)}}">Edit Item</a></p>
+			<p><a href = "{{url_for('deleteItem',category_id = category.id, menu_id = item.id)}}">Delete Item</a></p>
+		</div>
+		{% endfor %}
+
+	</body>
+
+</html>
