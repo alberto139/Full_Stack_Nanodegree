@@ -85,6 +85,7 @@ def menuItemJSON(category_id, menu_id):
     return jsonify(Menu_Item=Menu_Item.serialize)
 
 
+@app.route('/catalog/JSON')
 @app.route('/category/JSON')
 def categoriesJSON():
     categories = session.query(Category).all()
