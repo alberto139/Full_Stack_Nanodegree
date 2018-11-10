@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="styles.css">
 <style>
 ul {
     list-style-type: none;
@@ -66,6 +67,12 @@ li.dropdown {
       {%endfor%}
     </div>
   </li>
+
+  {% if not logged_in %}
+  <li id='alignright'><a href="{{url_for('showLogin')}}">Login</a></li>
+  {% else %}
+  <li id='alignright'><a href="{{url_for('disconnect')}}">Logout</a></li>
+  {%endif%}
 </ul>
 
 

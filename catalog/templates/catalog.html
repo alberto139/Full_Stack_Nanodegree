@@ -31,7 +31,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 		<div class = 'pane'>
 		<h1>Categories</h1>
 
+		{% if logged_in %}
 		<a href="{{url_for('newCategory')}}" > <h3> Create a New Category </h3> </a>
+		{% endif %}
+
 
 		{% for category in categories %}
 		<div class="w3-quarter">
@@ -41,8 +44,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 			{%else%}
 			<img src="{{category.picture_url}}" alt="Steak" style="max-width: 300 px; max-height: 300px">
 			{%endif%}
+			{% if logged_in %}
 			<p><a href = "{{url_for('editCategory',category_id = category.id)}}">Edit Category</a></p>
 			<p> <a href = "{{url_for('deleteCategory',category_id = category.id)}}">Delete Category</a> </p>
+			{%endif%}
 		</div>
 
 

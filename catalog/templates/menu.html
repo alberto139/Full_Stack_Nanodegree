@@ -9,8 +9,11 @@
 	<body>
 		<div class = 'pane'>
 		<h1>{{ category.name }}</h1>
+		{%if logged_in%}
 		<a href="{{url_for('newItem', category_id = category.id )}}" > <h3> Add new {{ category.name }} item  </h3> </a>
-
+		{% else %}
+		<p>Please Log in to add items</p>
+		{%endif%}
 		{% for item in items %}
 		<div class="w3-quarter">
 			<h4>{{item.name}}</h4>
