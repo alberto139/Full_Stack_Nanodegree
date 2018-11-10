@@ -9,7 +9,7 @@
 	<body>
 		<div class = 'pane'>
 		<h1>{{ category.name }}</h1>
-		{%if logged_in%}
+		{%if user%}
 		<a href="{{url_for('newItem', category_id = category.id )}}" > <h3> Add new {{ category.name }} item  </h3> </a>
 		{% else %}
 		<p>Please Log in to add items</p>
@@ -24,8 +24,10 @@
 			<img src="{{item.picture_url}}" alt="Steak" style="max-width: 300 px; max-height: 300px">
 			{%endif%}
 			<p>{{item.description}}</p>
+			{% if user.id == item.id %}
 			<p><a href = "{{url_for('editItem',category_id = category.id, menu_id = item.id)}}">Edit Item</a></p>
 			<p><a href = "{{url_for('deleteItem',category_id = category.id, menu_id = item.id)}}">Delete Item</a></p>
+			{%endif%}
 		</div>
 		{% endfor %}
 

@@ -68,7 +68,7 @@ li.dropdown {
     </div>
   </li>
 
-  {% if not logged_in %}
+  {% if not user %}
   <li id='alignright'><a href="{{url_for('showLogin')}}">Login</a></li>
   {% else %}
   <li id='alignright'><a href="{{url_for('disconnect')}}">Logout</a></li>

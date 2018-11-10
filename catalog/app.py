@@ -102,9 +102,14 @@ def showCategories():
     print(check_user())
     categories = session.query(Category).all()
     for categorie in categories:
-        print(categorie.picture_url)
+        print("categorie.id: " + str(categorie.id))
+        print("categorie.name: " + str(categorie.name))
+        print("categorie.user_id: " + str(categorie.user_id))
     # return "This page will show all my categories"
-    return render_template('catalog.html', categories=categories, logged_in=check_user())
+    print("This is the result of check_user(): " + str(check_user()))
+    user = check_user()
+    #print(user.email)
+    return render_template('catalog.html', categories=categories, user=check_user())
 
 def showNavbar():
     categories = session.query(Category).all()
@@ -116,7 +121,10 @@ def showNavbar():
 @app.route('/category/new/', methods=['GET', 'POST'])
 def newCategory():
     if request.method == 'POST':
-        newCategory = Category(name=request.form['name'], picture_url=request.form['picture_url'])
+        newCategory = Category(
+            name=request.form['name'], 
+            picture_url=request.form['picture_url'],
+            user_id=check_user().id)
         session.add(newCategory)
         session.commit()
         return redirect(url_for('showCategories'))
@@ -169,7 +177,7 @@ def showItems(category_id):
 
     items = session.query(Item).filter_by(category_id=category_id).order_by(Item.id.desc())
     #items = session.query(Item).order_by(Item.id.desc())
-    return render_template('menu.html', items=items, category=category, categories=categories, logged_in = check_user())
+    return render_template('menu.html', items=items, category=category, categories=categories, user = check_user())
     # return 'This page is the menu for category %s' % category_id
 
 # Create a new menu item
@@ -182,7 +190,12 @@ def newItem(category_id):
     categories = session.query(Category).all()
     if request.method == 'POST':
         #return redirect(url_for('showCategories'))
-        newItem = Item(name=request.form['name'], description=request.form['description'], price=request.form['price'], picture_url=request.form['picture_url'], category_id=category_id )#, user_id=login_session['user_id'])
+        newItem = Item(
+            name=request.form['name'], 
+            description=request.form['description'], 
+            price=request.form['price'], 
+            picture_url=request.form['picture_url'], 
+            category_id=category_id )#, user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         #flash("New catalog item created!", 'success')
@@ -338,9 +351,14 @@ def gConnect():
     #login_session['gplus_id'] = data['gplus_id']
     if not check_user():
         createUser(login_session)
-    return jsonify(name=login_session['name'],
-                   email=login_session['email'],
-                   img=login_session['img'])
+
+    return jsonify(
+        name = login_session['name'],
+        picture = login_session['picture'],
+        email = login_session['email'],
+        provider = login_session['provider'],
+        username = login_session['username'],
+        credentials = login_session['credentials'])
 
 
 # logout user
